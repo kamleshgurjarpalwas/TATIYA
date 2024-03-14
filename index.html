@@ -149,40 +149,38 @@
       });
       //for the horizontal bars
       const nameAllotmentForHor = (index) => {
-        let devide1 =((index * (num + 1)) / num);
-        console.log(devide1);
-        let devide=Math.floor(devide1);
-        console.log(devide);
-        if (index <= num - 1) {
+        let devide = Math.floor(index / num);
+        if (index / num < 1) {
           if (
-            verBorder[devide].innerText != "" &&
-            verBorder[devide + 1].innerText != "" &&
-            horBorder[devide + num].innerText != ""
+            verBorder[index + devide + 1].innerText === "r" &&
+            verBorder[index + devide].innerText === "r" &&
+            horBorder[index + num].innerText === "r"
           ) {
-            boxes[devide].innerText = "K";
+            boxes[index].innerText = "K";
           }
-        } else if (index >= num * num) {
+        } else if (index / num >= num) {
+          console.log(index / num);
           if (
-            verBorder[devide - num].innerText != "" &&
-            verBorder[devide - num + 1].innerText != "" &&
-            horBorder[devide - num].innerText != ""
+            verBorder[index + devide - num - 1].innerText === "r" &&//yhe aur niche wali line thodi logical hai
+            verBorder[index + devide - num].innerText === "r" &&//yhe bhi logical hai
+            horBorder[index - num].innerText === "r"
           ) {
-            boxes[devide - num].innerText = "k";
-          } else {
-            if (
-              verBorder[devide - num].innerText != "" &&
-              verBorder[devide - num + 1].innerText != "" &&
-              horBorder[devide - num].innerText != ""
-            ) {
-              boxes[devide - num].innerText = "k";
-            }
-            if (
-              verBorder[devide].innerText != "" &&
-              verBorder[devide + 1].innerText != "" &&
-              horBorder[devide + num].innerText != ""
-            ) {
-              boxes[devide].innerText = "K";
-            }
+            boxes[index - num].innerText = "K";
+          }
+        } else {
+          if (
+            verBorder[index + devide - num - 1].innerText === "r" &&
+            verBorder[index + devide - num].innerText === "r" &&
+            horBorder[index - num].innerText === "r"
+          ) {
+            boxes[index - num].innerText = "K";
+          }
+          if (
+            verBorder[index + devide + 1].innerText === "r" &&
+            verBorder[index + devide].innerText === "r" &&
+            horBorder[index + num].innerText === "r"
+          ) {
+            boxes[index].innerText = "K";
           }
         }
       };
