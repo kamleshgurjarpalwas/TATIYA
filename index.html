@@ -125,7 +125,8 @@
       }
 
       //this code for backend
-      let turn = true;
+      
+      let turn='K';
       const verBorder = document.querySelectorAll(".onlyVER");
       const horBorder = document.querySelectorAll(".onlyHor");
       const boxes = document.querySelectorAll(".box");
@@ -135,7 +136,9 @@
           pob.innerText = "r"; //i stored r for the clicked
           pob.checkVisibility = false;
           pob.disabled = true;
-          nameAllotmentForVer(index);
+          console.log(turn);
+          nameAllotmentForVer(index, turn);
+          
         });
       });
       horBorder.forEach((pob, index) => {
@@ -144,11 +147,13 @@
           pob.innerText = "r"; //i stored r for the clicked
           pob.checkVisibility = false;
           pob.disabled = true;
-          nameAllotmentForHor(index);
+          console.log(turn);
+          nameAllotmentForHor(index, turn);
         });
       });
       //for the horizontal bars
-      const nameAllotmentForHor = (index) => {
+      const nameAllotmentForHor = (index, player) => {
+
         let devide = Math.floor(index / num);
         if (index / num < 1) {
           if (
@@ -156,35 +161,48 @@
             verBorder[index + devide].innerText === "r" &&
             horBorder[index + num].innerText === "r"
           ) {
-            boxes[index].innerText = "K";
+            boxes[index].innerText = player;
+            turn=player;
+            return;
           }
         } else if (index / num >= num) {
           console.log(index / num);
           if (
-            verBorder[index + devide - num - 1].innerText === "r" &&//yhe aur niche wali line thodi logical hai
-            verBorder[index + devide - num].innerText === "r" &&//yhe bhi logical hai
+            verBorder[index + devide - num - 1].innerText === "r" && //yhe aur niche wali line thodi logical hai
+            verBorder[index + devide - num].innerText === "r" && //yhe bhi logical hai
             horBorder[index - num].innerText === "r"
           ) {
-            boxes[index - num].innerText = "K";
+            boxes[index - num].innerText = player;
+            turn=player;
+            return;
           }
         } else {
+          let random = 0;
           if (
             verBorder[index + devide - num - 1].innerText === "r" &&
             verBorder[index + devide - num].innerText === "r" &&
             horBorder[index - num].innerText === "r"
           ) {
-            boxes[index - num].innerText = "K";
+            boxes[index - num].innerText = player;
+            random = 1;
           }
           if (
             verBorder[index + devide + 1].innerText === "r" &&
             verBorder[index + devide].innerText === "r" &&
             horBorder[index + num].innerText === "r"
           ) {
-            boxes[index].innerText = "K";
+            boxes[index].innerText = player;
+            random = 1;
+          }
+          if (random) {
+            turn=player;
+            return;
           }
         }
+        if (player === 'K') turn='V';
+        if (player === 'V') turn='K';
       };
-      const nameAllotmentForVer = (index) => {
+      const nameAllotmentForVer = (index, player) => {
         let devide = Math.floor(index / (num + 1));
         if (index % (num + 1) === 0) {
           if (
@@ -192,7 +210,9 @@
             horBorder[index - devide + num].innerText != "" &&
             verBorder[index + 1].innerText != ""
           ) {
-            boxes[index - devide].innerText = "K";
+            boxes[index - devide].innerText = player;
+            turn= player;
+            return;
           }
         } else if (index % (num + 1) === 8) {
           if (
@@ -200,25 +220,37 @@
             horBorder[index - devide + num - 1].innerText != "" &&
             verBorder[index - 1].innerText != ""
           ) {
-            boxes[index - devide - 1].innerText = "K";
+            boxes[index - devide - 1].innerText = player;
+            turn= player;
+            return;
           }
         } else {
+          let random1 = 0;
           if (
             horBorder[index - devide - 1].innerText != "" &&
             horBorder[index - devide + num - 1].innerText != "" &&
             verBorder[index - 1].innerText != ""
           ) {
-            boxes[index - devide - 1].innerText = "K";
+            boxes[index - devide - 1].innerText = player;
+            random1 = 1;
           }
           if (
             horBorder[index - devide].innerText != "" &&
             horBorder[index - devide + num].innerText != "" &&
             verBorder[index + 1].innerText != ""
           ) {
-            boxes[index - devide].innerText = "K";
+            boxes[index - devide].innerText = player;
+            random1 = 1;
+          }
+          if (random1) {
+            turn= player;
+            return
           }
         }
+        if (player === 'K') turn ='V';
+        if (player === 'V') turn= 'K';
       };
+
     </script>
   </body>
 </html>
