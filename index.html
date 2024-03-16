@@ -14,13 +14,13 @@
         -ms-user-select: none; /* Internet Explorer/Edge */
         user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
       }
-      body{
+      body {
         display: flex;
         justify-content: center;
         align-items: center;
         background: #000000;
       }
-      #ourGame{
+      #ourGame {
         width: 100vw;
         /* height: 100vh; */
         background-color: blueviolet;
@@ -107,8 +107,11 @@
         justify-content: center;
         text-align: center;
         align-items: center;
-        font-size: 50px;
+        font-size: 35px;
         color: black;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+          sans-serif;
       }
 
       .horCor:hover,
@@ -122,43 +125,71 @@
         background-color: black;
         width: 6px;
       }
-      @media only screen and (max-width: 600px){
-        body{
+      @media only screen and (max-width: 600px) {
+        body {
           background-color: #0066ff7f;
         }
-        #ourGame::before{
+        #ourGame::before {
           content: "TATIYA";
           font-size: 25px;
           color: rgb(224, 215, 213);
         }
-        .horCor{
+        .horCor {
           width: auto;
         }
-        .box{
+        .box {
           width: 38px;
           height: 40px;
         }
-        .horCor{
+        .horCor {
           width: 42px;
         }
-        .horCor1{
+        .horCor1 {
           width: 44px;
         }
-        .verCor{
+        .verCor {
           height: 40px;
         }
-        .verCor1{
+        .verCor1 {
           height: 40px;
         }
-        .verCor2{
+        .verCor2 {
           height: 40px;
         }
-        .scoreBox{
+        .scoreBox {
           background-color: rgb(21, 255, 0);
           border-radius: 10px;
           margin-top: 10px;
           margin-bottom: 5px;
           width: 150px;
+        }
+        .turnPerson {
+          height: 40px;
+          width: 300px;
+          background-color: rgb(0, 204, 255);
+          border: 3px solid black;
+          border-radius: 5px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-size: 40px;
+          font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+            Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+            sans-serif;
+        }
+        .winBox {
+          height: 40px;
+          width: 300px;
+          background-color: rgb(0, 204, 255);
+          border: 3px solid black;
+          border-radius: 5px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-size: 40px;
+          font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+            Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+            sans-serif;
         }
       }
     </style>
@@ -170,6 +201,7 @@
         <div class="scoreBox">Player K Score: <span id="p1score">0</span></div>
         <div class="scoreBox">Player V Score: <span id="p2score">0</span></div>
       </div>
+      <div class="turnPerson"></div>
     </div>
     <script>
       const container = document.querySelector(".container");
@@ -219,6 +251,7 @@
       const verBorder = document.querySelectorAll(".onlyVER");
       const horBorder = document.querySelectorAll(".onlyHor");
       const boxes = document.querySelectorAll(".box");
+      document.querySelector(".turnPerson").innerText = turn;
       verBorder.forEach((pob, index) => {
         pob.addEventListener("click", function () {
           //here function used thats why i want to for a perticular element of of class verBorder
@@ -256,12 +289,15 @@
           ) {
             boxes[index].innerText = player;
             turn = player;
+            document.querySelector(".turnPerson").innerText = turn; //yha player ko baayega ki kiski bari hai
             if (player === "K") {
               sumForK++;
+              checkWineer(sumForK, sumForV);
               document.querySelector("#p1score").innerText = sumForK;
             }
             if (player === "V") {
               sumForV++;
+              checkWineer(sumForK, sumForV);
               document.querySelector("#p2score").innerText = sumForV;
             }
             return;
@@ -275,12 +311,15 @@
           ) {
             boxes[index - num].innerText = player;
             turn = player;
+            document.querySelector(".turnPerson").innerText = turn; //yha player ko baayega ki kiski bari hai
             if (player === "K") {
               sumForK++;
+              checkWineer(sumForK, sumForV);
               document.querySelector("#p1score").innerText = sumForK;
             }
             if (player === "V") {
               sumForV++;
+              checkWineer(sumForK, sumForV);
               document.querySelector("#p2score").innerText = sumForV;
             }
             return;
@@ -295,10 +334,12 @@
             boxes[index - num].innerText = player;
             if (player === "K") {
               sumForK++;
+              checkWineer(sumForK, sumForV);
               document.querySelector("#p1score").innerText = sumForK;
             }
             if (player === "V") {
               sumForV++;
+              checkWineer(sumForK, sumForV);
               document.querySelector("#p2score").innerText = sumForV;
             }
             random = 1;
@@ -311,21 +352,30 @@
             boxes[index].innerText = player;
             if (player === "K") {
               sumForK++;
+              checkWineer(sumForK, sumForV);
               document.querySelector("#p1score").innerText = sumForK;
             }
             if (player === "V") {
               sumForV++;
+              checkWineer(sumForK, sumForV);
               document.querySelector("#p2score").innerText = sumForV;
             }
             random = 1;
           }
           if (random) {
             turn = player;
+            document.querySelector(".turnPerson").innerText = turn; //yha player ko baayega ki kiski bari hai
             return;
           }
         }
-        if (player === "K") turn = "V";
-        if (player === "V") turn = "K";
+        if (player === "K") {
+          turn = "V";
+          document.querySelector(".turnPerson").innerText = turn; //yha player ko baayega ki kiski bari hai
+        }
+        if (player === "V") {
+          turn = "K";
+          document.querySelector(".turnPerson").innerText = turn; //yha player ko baayega ki kiski bari hai
+        }
       };
       const nameAllotmentForVer = (index, player) => {
         let devide = Math.floor(index / (num + 1));
@@ -337,12 +387,15 @@
           ) {
             boxes[index - devide].innerText = player;
             turn = player;
+            document.querySelector(".turnPerson").innerText = turn; //yha player ko baayega ki kiski bari hai
             if (player === "K") {
               sumForK++;
+              checkWineer(sumForK, sumForV);
               document.querySelector("#p1score").innerText = sumForK;
             }
             if (player === "V") {
               sumForV++;
+              checkWineer(sumForK, sumForV);
               document.querySelector("#p2score").innerText = sumForV;
             }
             return;
@@ -355,12 +408,14 @@
           ) {
             boxes[index - devide - 1].innerText = player;
             turn = player;
+            document.querySelector(".turnPerson").innerText = turn; //yha player ko baayega ki kiski bari hai
             if (player === "K") {
               sumForK++;
               document.querySelector("#p1score").innerText = sumForK;
             }
             if (player === "V") {
               sumForV++;
+              checkWineer(sumForK, sumForV);
               document.querySelector("#p2score").innerText = sumForV;
             }
             return;
@@ -375,11 +430,12 @@
             boxes[index - devide - 1].innerText = player;
             if (player === "K") {
               sumForK++;
+              checkWineer(sumForK, sumForV);
               document.querySelector("#p1score").innerText = sumForK;
             }
             if (player === "V") {
               sumForV++;
-
+              checkWineer(sumForK, sumForV);
               document.querySelector("#p2score").innerText = sumForV;
             }
             random1 = 1;
@@ -392,21 +448,49 @@
             boxes[index - devide].innerText = player;
             if (player === "K") {
               sumForK++;
+              checkWineer(sumForK, sumForV);
               document.querySelector("#p1score").innerText = sumForK;
             }
             if (player === "V") {
               sumForV++;
+              checkWineer(sumForK, sumForV);
               document.querySelector("#p2score").innerText = sumForV;
             }
             random1 = 1;
           }
           if (random1) {
             turn = player;
+            document.querySelector(".turnPerson").innerText = turn; //yha player ko baayega ki kiski bari hai
             return;
           }
         }
-        if (player === "K") turn = "V";
-        if (player === "V") turn = "K";
+        if (player === "K") {
+          turn = "V";
+          document.querySelector(".turnPerson").innerText = turn; //yha player ko baayega ki kiski bari hai
+        }
+        if (player === "V") {
+          turn = "K";
+          document.querySelector(".turnPerson").innerText = turn; //yha player ko baayega ki kiski bari hai
+        }
+      };
+
+      //here this function for check winner
+      const checkWineer = (k, v) => {
+        console.log("aagya");
+        if (k + v === 4) {
+          console.log(k);
+          console.log(v);
+          // document.querySelector(".turnPerson").classList.add("winBox");
+          if (k > v) {
+            let kWin="K is win";
+            document.querySelector(".turnPerson").innerText =kWin ;
+          } else if (v > k) {
+            let vWin="v is win";
+            document.querySelector(".turnPerson").innerText = vWin;
+          } else {
+            document.querySelector(".turnPerson").innerText = "DRAW....!";
+          }
+        }
       };
     </script>
   </body>
