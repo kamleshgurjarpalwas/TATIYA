@@ -5,13 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <style>
-      body {
-        justify-content: center;
-        align-items: center;
-      }
+      /* Apply to all elements */
+* {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+}
+
+      
       .container {
         display: grid;
         grid-template-columns: repeat(1, 0fr);
+      }
+      .mainGame {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      .scoreBox{
+        width: 160px;
+        height: 45px;
+        display: flex;
+        justify-content: center;
+        margin: 20px;
+        align-items: center;
+        font-size: 20px;
+        font-weight: 600;
+        border: 3px black groove;
+        border-radius: 2px;
+        background-color: rgba(127, 129, 255, 0.637);
       }
       .row {
         display: flex;
@@ -84,7 +111,12 @@
     </style>
   </head>
   <body>
-    <div class="container"></div>
+    <h1 style="text-align: center;">TATIYA</h1><hr>
+    <div class="mainGame">
+      <div class="scoreBox">Player K Score: <span id="p1score">0</span></div>
+      <div class="container"></div>
+      <div class="scoreBox">Player V Score: <span id="p2score">0</span></div>
+    </div>
     <script>
       const container = document.querySelector(".container");
       const num = 8;
@@ -125,35 +157,41 @@
       }
 
       //this code for backend
-      
-      let turn='K';
+      let sumForK = 0;
+      let sumForV = 0;
+      document.querySelector("#p1score").innerText = sumForK;
+      document.querySelector("#p2score").innerText = sumForV;
+      let turn = "K";
       const verBorder = document.querySelectorAll(".onlyVER");
       const horBorder = document.querySelectorAll(".onlyHor");
       const boxes = document.querySelectorAll(".box");
       verBorder.forEach((pob, index) => {
-        pob.addEventListener("click", () => {
-          pob.style.background = "black";
-          pob.innerText = "r"; //i stored r for the clicked
-          pob.checkVisibility = false;
-          pob.disabled = true;
-          console.log(turn);
-          nameAllotmentForVer(index, turn);
-          
+        pob.addEventListener("click", function () {//here function used thats why i want to for a perticular element of of class verBorder
+          if (!this.clicked) {
+            pob.style.background = "black";
+            pob.innerText = "r"; //i stored r for the clicked
+            pob.checkVisibility = false;
+            this.clicked = true;
+            console.log(turn);
+            nameAllotmentForVer(index, turn);
+          }
         });
       });
       horBorder.forEach((pob, index) => {
-        pob.addEventListener("click", () => {
-          pob.style.background = "black";
-          pob.innerText = "r"; //i stored r for the clicked
-          pob.checkVisibility = false;
-          pob.disabled = true;
-          console.log(turn);
-          nameAllotmentForHor(index, turn);
+        //here pob matlab part of body
+        pob.addEventListener("click", function () {
+          if (!this.clicked) {
+            pob.style.background = "black";
+            pob.innerText = "r"; //i stored r for the clicked
+            pob.checkVisibility = false;
+            this.clicked = true;
+            console.log(turn);
+            nameAllotmentForHor(index, turn);
+          }
         });
       });
       //for the horizontal bars
       const nameAllotmentForHor = (index, player) => {
-
         let devide = Math.floor(index / num);
         if (index / num < 1) {
           if (
@@ -162,7 +200,15 @@
             horBorder[index + num].innerText === "r"
           ) {
             boxes[index].innerText = player;
-            turn=player;
+            turn = player;
+            if (player === "K") {
+              sumForK++;
+              document.querySelector("#p1score").innerText = sumForK;
+            }
+            if (player === "V") {
+              sumForV++;
+              document.querySelector("#p2score").innerText = sumForV;
+            }
             return;
           }
         } else if (index / num >= num) {
@@ -173,7 +219,15 @@
             horBorder[index - num].innerText === "r"
           ) {
             boxes[index - num].innerText = player;
-            turn=player;
+            turn = player;
+            if (player === "K") {
+              sumForK++;
+              document.querySelector("#p1score").innerText = sumForK;
+            }
+            if (player === "V") {
+              sumForV++;
+              document.querySelector("#p2score").innerText = sumForV;
+            }
             return;
           }
         } else {
@@ -184,6 +238,14 @@
             horBorder[index - num].innerText === "r"
           ) {
             boxes[index - num].innerText = player;
+            if (player === "K") {
+              sumForK++;
+              document.querySelector("#p1score").innerText = sumForK;
+            }
+            if (player === "V") {
+              sumForV++;
+              document.querySelector("#p2score").innerText = sumForV;
+            }
             random = 1;
           }
           if (
@@ -192,15 +254,23 @@
             horBorder[index + num].innerText === "r"
           ) {
             boxes[index].innerText = player;
+            if (player === "K") {
+              sumForK++;
+              document.querySelector("#p1score").innerText = sumForK;
+            }
+            if (player === "V") {
+              sumForV++;
+              document.querySelector("#p2score").innerText = sumForV;
+            }
             random = 1;
           }
           if (random) {
-            turn=player;
+            turn = player;
             return;
           }
         }
-        if (player === 'K') turn='V';
-        if (player === 'V') turn='K';
+        if (player === "K") turn = "V";
+        if (player === "V") turn = "K";
       };
       const nameAllotmentForVer = (index, player) => {
         let devide = Math.floor(index / (num + 1));
@@ -211,7 +281,15 @@
             verBorder[index + 1].innerText != ""
           ) {
             boxes[index - devide].innerText = player;
-            turn= player;
+            turn = player;
+            if (player === "K") {
+              sumForK++;
+              document.querySelector("#p1score").innerText = sumForK;
+            }
+            if (player === "V") {
+              sumForV++;
+              document.querySelector("#p2score").innerText = sumForV;
+            }
             return;
           }
         } else if (index % (num + 1) === 8) {
@@ -221,7 +299,15 @@
             verBorder[index - 1].innerText != ""
           ) {
             boxes[index - devide - 1].innerText = player;
-            turn= player;
+            turn = player;
+            if (player === "K") {
+              sumForK++;
+              document.querySelector("#p1score").innerText = sumForK;
+            }
+            if (player === "V") {
+              sumForV++;
+              document.querySelector("#p2score").innerText = sumForV;
+            }
             return;
           }
         } else {
@@ -232,6 +318,15 @@
             verBorder[index - 1].innerText != ""
           ) {
             boxes[index - devide - 1].innerText = player;
+            if (player === "K") {
+              sumForK++;
+              document.querySelector("#p1score").innerText = sumForK;
+            }
+            if (player === "V") {
+              sumForV++;
+
+              document.querySelector("#p2score").innerText = sumForV;
+            }
             random1 = 1;
           }
           if (
@@ -240,17 +335,24 @@
             verBorder[index + 1].innerText != ""
           ) {
             boxes[index - devide].innerText = player;
+            if (player === "K") {
+              sumForK++;
+              document.querySelector("#p1score").innerText = sumForK;
+            }
+            if (player === "V") {
+              sumForV++;
+              document.querySelector("#p2score").innerText = sumForV;
+            }
             random1 = 1;
           }
           if (random1) {
-            turn= player;
-            return
+            turn = player;
+            return;
           }
         }
-        if (player === 'K') turn ='V';
-        if (player === 'V') turn= 'K';
+        if (player === "K") turn = "V";
+        if (player === "V") turn = "K";
       };
-
     </script>
   </body>
 </html>
