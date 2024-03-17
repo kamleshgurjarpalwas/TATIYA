@@ -411,6 +411,7 @@
             document.querySelector(".turnPerson").innerText = turn; //yha player ko baayega ki kiski bari hai
             if (player === "K") {
               sumForK++;
+              checkWineer(sumForK,sumForV);
               document.querySelector("#p1score").innerText = sumForK;
             }
             if (player === "V") {
