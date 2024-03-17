@@ -54,6 +54,11 @@
         border-radius: 2px;
         background-color: rgb(255, 0, 0);
       }
+      .turnLable {
+        display: flex;
+        justify-content: space-around;
+        flex-direction: row;
+      }
       .row {
         display: flex;
       }
@@ -163,6 +168,14 @@
           margin-bottom: 5px;
           width: 150px;
         }
+        .turnLable {
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          justify-content: space-between;
+
+        }
         .turnPerson {
           height: 40px;
           width: 300px;
@@ -179,7 +192,7 @@
         }
         .winBox {
           height: 40px;
-          width: 300px;
+          width: 250px;
           background-color: rgb(0, 204, 255);
           border: 3px solid black;
           border-radius: 5px;
@@ -191,6 +204,13 @@
             Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
             sans-serif;
         }
+        .youTube{
+          width: 40px;
+          height: 40px;
+        }
+        .imageYouTube{
+          width: 40px;
+        }
       }
     </style>
   </head>
@@ -201,7 +221,14 @@
         <div class="scoreBox">Player K Score: <span id="p1score">0</span></div>
         <div class="scoreBox">Player V Score: <span id="p2score">0</span></div>
       </div>
-      <div class="turnPerson"></div>
+      <div class="turnLable">
+        <div class="youTube">
+          <a href="https://youtube.com/@studentofNITDELHI?si=pSJLBqc0BNsftOUK"
+            ><img src="image.png" alt="youTube" class="imageYouTube"></a
+          >
+        </div>
+        <div class="turnPerson"></div>
+      </div>
     </div>
     <script>
       const container = document.querySelector(".container");
@@ -411,7 +438,7 @@
             document.querySelector(".turnPerson").innerText = turn; //yha player ko baayega ki kiski bari hai
             if (player === "K") {
               sumForK++;
-              checkWineer(sumForK,sumForV);
+              checkWineer(sumForK, sumForV);
               document.querySelector("#p1score").innerText = sumForK;
             }
             if (player === "V") {
@@ -478,15 +505,15 @@
       //here this function for check winner
       const checkWineer = (k, v) => {
         console.log("aagya");
-        if (k + v === 64) {
+        if (k + v === 4) {
           console.log(k);
           console.log(v);
           // document.querySelector(".turnPerson").classList.add("winBox");
           if (k > v) {
-            let kWin=`K is win by ${k-v}`;
-            document.querySelector(".turnPerson").innerText =kWin ;
+            let kWin = `K WIN by ${k - v}`;
+            document.querySelector(".turnPerson").innerText = kWin;
           } else if (v > k) {
-            let vWin=`V is win by ${v-k}`;
+            let vWin = `V WIN by ${v - k}.`;
             document.querySelector(".turnPerson").innerText = vWin;
           } else {
             document.querySelector(".turnPerson").innerText = "DRAW....!";
