@@ -503,20 +503,27 @@
       };
 
       //here this function for check winner
-      const checkWineer = (k, v) => {
+      function checkWineer(k, v){
         console.log("aagya");
         if (k + v === 4) {
+          console.log(k+v);
           console.log(k);
           console.log(v);
           // document.querySelector(".turnPerson").classList.add("winBox");
           if (k > v) {
             let kWin = `K WIN by ${k - v}`;
-            document.querySelector(".turnPerson").innerText = kWin;
+            setTimeout(() => {
+              document.querySelector(".turnPerson").innerHTML = `<p>${kWin}</p>`;
+            },1);
           } else if (v > k) {
             let vWin = `V WIN by ${v - k}.`;
-            document.querySelector(".turnPerson").innerText = vWin;
+            setTimeout(() => {
+              document.querySelector(".turnPerson").innerHTML = `<p>${vWin}</p>`;
+            },1);
           } else {
-            document.querySelector(".turnPerson").innerText = "DRAW....!";
+            setTimeout(() => {
+              document.querySelector(".turnPerson").innerHTML = `<p>DRAW</p>`;
+            },1);
           }
         }
       };
