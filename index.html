@@ -483,10 +483,10 @@
           console.log(v);
           // document.querySelector(".turnPerson").classList.add("winBox");
           if (k > v) {
-            let kWin="K is win";
+            let kWin=`K is win ${k-v}`;
             document.querySelector(".turnPerson").innerText =kWin ;
           } else if (v > k) {
-            let vWin="v is win";
+            let vWin=`v is win ${v-k}`;
             document.querySelector(".turnPerson").innerText = vWin;
           } else {
             document.querySelector(".turnPerson").innerText = "DRAW....!";
